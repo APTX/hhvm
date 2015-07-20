@@ -59,7 +59,7 @@ ETCH_NAME(enterTCHelper):
    */
   test ETCH_ARG6, ETCH_ARG6
   jz ETCH_LABEL(enterTCHelper$callTC)
-  push ETCH_NAME_REL(enterTCExit)
+  push ETCH_NAME_REL(enterTCExit)@PLT
   push 0x8(ETCH_ARG6)
   mov ETCH_ARG6, %rbp
   call ETCH_LABEL(enterTCHelper$prologue)
@@ -124,9 +124,9 @@ ETCH_NAME(handleSRHelper):
   CFI2(adjust_cfa_offset, 0x30)
 
   // call mcg->handleServiceRequest(%rsp)
-  mov ETCH_NAME(mcg)(%rip), ETCH_ARG1
+  mov ETCH_NAME(mcg)@PLT(%rip), ETCH_ARG1
   mov %rsp, ETCH_ARG2
-  call MCGenerator_handleServiceRequest
+  call MCGenerator_handleServiceRequest@PLT
 
   // Pop the ServiceReqInfo off the stack.
   add $0x30, %rsp
